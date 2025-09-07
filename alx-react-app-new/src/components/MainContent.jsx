@@ -1,15 +1,12 @@
-import React from "react";
-import UserProfile from "./UserProfile";
+import React from 'react';
 
 function MainContent() {
   return (
-    <main style={{ padding: "20px", backgroundColor: "#eef2f3" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px", color: "darkgreen" }}>
-        Meet Our Users
-      </h2>
-      <UserProfile name="Alice Johnson" age={28} bio="Loves hiking and outdoor adventures." />
-      <UserProfile name="Bob Smith" age={34} bio="A foodie who enjoys exploring new cuisines." />
-      <UserProfile name="Charlie Brown" age={22} bio="Tech enthusiast and avid gamer." />
+    <main style={{ padding: '20px', backgroundColor: '#eef2f7', minHeight: '300px' }}>
+      <h2 style={{ color: 'darkslategray', textAlign: 'center' }}>Welcome to My Page</h2>
+      <p style={{ textAlign: 'center', fontSize: '18px', marginTop: '10px' }}>
+        I love to visit New York, Paris, and Tokyo.
+      </p>
     </main>
   );
 }
