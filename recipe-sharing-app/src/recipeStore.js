@@ -1,28 +1,36 @@
-// src/recipeStore.js
-import { create } from 'zustand'
+// src/components/recipeStore.js
 
-const useRecipeStore = create((set) => ({
-  recipes: [],
-  addRecipe: (newRecipe) =>
-    set((state) => ({
-      recipes: [...state.recipes, newRecipe],
-    })),
-  setRecipes: (recipes) => set({ recipes }),
+// Temporary in-memory storage (you might replace this with API/database later)
+let recipes = [];
 
-  // updateRecipe: receives an object with id and fields to update
-  updateRecipe: (updated) =>
-    set((state) => ({
-      recipes: state.recipes.map((r) =>
-        r.id === updated.id ? { ...r, ...updated } : r
-      ),
-    })),
+// Update a recipe by id
+export function updateRecipe(id, updatedData) {
+  const index = recipes.findIndex(recipe => recipe.id === id);
+  if (index !== -1) {
+    recipes[index] = { ...recipes[index], ...updatedData };
+    return recipes[index];
+  }
+  return null; // not found
+}
 
-  // deleteRecipe: remove by id
-  deleteRecipe: (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((r) => r.id !== id),
-    })),
-}))
+// Delete a recipe by id
+export function deleteRecipe(id) {
+  const index = recipes.findIndex(recipe => recipe.id === id);
+  if (index !== -1) {
+    const deleted = recipes.splice(index, 1);
+    return deleted[0]; // return deleted recipe
+  }
+  return null; // not found
+}
 
-export default useRecipeStore
+// Optional: getter to check what’s in store (for testing/debugging)
+export function getRecipes() {
+  return recipes;
+}
+
+// Optional: add new recipe (so you can test updates/deletes easily)
+export function addRecipe(recipe) {
+  recipes.push(recipe);
+  return recipe;
+}
 
