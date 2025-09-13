@@ -1,67 +1,52 @@
 // src/components/EditRecipeForm.jsx
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import useRecipeStore from '../recipeStore'
+import { useState } from "react";
+import { useRecipeStore } from "./recipeStore";
 
-function EditRecipeForm() {
-  const { id } = useParams()
-  const recipeId = Number(id)
-  const recipe = useRecipeStore((s) =>
-    s.recipes.find((r) => r.id === recipeId)
-  )
-  const updateRecipe = useRecipeStore((s) => s.updateRecipe)
-  const navigate = useNavigate()
+const EditRecipeForm = ({ recipe, onClose }) => {
+  const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [name, setName] = useState(recipe.name);
+  const [ingredients, setIngredients] = useState(recipe.ingredients.join(", "));
 
-  useEffect(() => {
-    if (recipe) {
-      setTitle(recipe.title)
-      setDescription(recipe.description)
-    }
-  }, [recipe])
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ prevents page reload
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!title.trim() || !description.trim()) {
-      alert('Please fill both fields')
-      return
-    }
-    updateRecipe({ id: recipeId, title, description })
-    navigate(`/recipes/${recipeId}`)
-  }
+    updateRecipe(recipe.id, {
+      name,
+      ingredients: ingredients.split(",").map((ing) => ing.trim()),
+    });
 
-  if (!recipe) {
-    return (
-      <div style={{ padding: 20 }}>
-        <h2>Recipe not found</h2>
-      </div>
-    )
-  }
+    if (onClose) onClose(); // close form after saving
+  };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Edit Recipe</h2>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <h3>Edit Recipe</h3>
+      <div>
+        <label>Recipe Name:</label>
         <input
-          style={{ display: 'block', margin: '10px 0', padding: 8, width: '100%' }}
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Recipe title"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <textarea
-          style={{ display: 'block', margin: '10px 0', padding: 8, width: '100%', minHeight: 120 }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Recipe description"
-        />
-        <button type="submit" style={{ marginRight: 10 }}>Save</button>
-        <button type="button" onClick={() => navigate(-1)}>Cancel</button>
-      </form>
-    </div>
-  )
-}
+      </div>
 
-export default EditRecipeForm
+      <div>
+        <label>Ingredients (comma separated):</label>
+        <input
+          type="text"
+          value={ingredients}
+          onChange={(e) => setIngredients(e.target.value)}
+        />
+      </div>
+
+      <button type="submit">Save Changes</button>
+      <button type="button" onClick={onClose}>
+        Cancel
+      </button>
+    </form>
+  );
+};
+
+export default EditRecipeForm;
+
