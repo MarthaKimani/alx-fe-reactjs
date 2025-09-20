@@ -1,3 +1,4 @@
+// src/components/Search.jsx
 import { useState } from "react";
 import { fetchUserData } from "../services/githubService";
 
@@ -17,18 +18,18 @@ const Search = () => {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError("Looks like we can’t find the user 😢");
+      setError("Looks like we can't find the user");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="search-container">
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Enter GitHub username"
+          placeholder="Enter GitHub username..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -36,12 +37,16 @@ const Search = () => {
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {userData && (
-        <div className="user-card">
-          <img src={userData.avatar_url} alt={userData.login} width={100} />
-          <h2>{userData.name || userData.login}</h2>
+        <div>
+          <img
+            src={userData.avatar_url}
+            alt={userData.login}
+            width="100"
+            style={{ borderRadius: "50%" }}
+          />
+          <h3>{userData.name || userData.login}</h3>
           <a href={userData.html_url} target="_blank" rel="noreferrer">
             View Profile
           </a>
@@ -52,3 +57,4 @@ const Search = () => {
 };
 
 export default Search;
+
