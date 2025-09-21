@@ -1,5 +1,6 @@
+// github-user-search/src/components/Search.jsx
 import { useState } from "react";
-import { fetchAdvancedUsers } from "../services/githubService";
+import { fetchUserData, fetchAdvancedUsers } from "../services/githubService";
 
 export default function Search() {
   const [username, setUsername] = useState("");
@@ -13,11 +14,23 @@ export default function Search() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
-      const users = await fetchAdvancedUsers(username, location, minRepos);
+      let users = [];
+
+      if (location || minRepos) {
+        // ✅ use advanced search if filters are applied
+        users = await fetchAdvancedUsers(username, location, minRepos);
+      } else {
+        // ✅ fallback to single-user fetch if only username
+        const user = await fetchUserData(username);
+        users = [user]; // wrap single result in array for consistency
+      }
+
       setResults(users);
     } catch (err) {
-      setError("Looks like we cant find the user");
+      setError("Looks like we can't find the user");
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -94,4 +107,3 @@ export default function Search() {
     </div>
   );
 }
-
