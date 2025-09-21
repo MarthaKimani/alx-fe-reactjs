@@ -29,7 +29,7 @@ export default function Search() {
 
       setResults(users);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we cant find the user");
       setResults([]);
     } finally {
       setLoading(false);
