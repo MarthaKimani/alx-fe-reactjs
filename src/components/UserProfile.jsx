@@ -1,10 +1,19 @@
-function UserProfile(props) {
+function UserProfile() {
   return (
-    <div style={{ border: "1px solid gray", padding: "15px", margin: "15px", borderRadius: "10px", backgroundColor: "#f9f9f9" }}>
-      <h2 style={{ color: "blue", marginBottom: "10px" }}>{props.name}</h2>
-      <p>Age: <span style={{ fontWeight: "bold", color: "darkgreen" }}>{props.age}</span></p>
-      <p style={{ fontStyle: "italic", color: "gray" }}>{props.bio}</p>
+    <div className="bg-gray-100 p-8 max-w-sm mx-auto my-20 rounded-lg shadow-lg text-center">
+      <img
+        src="https://via.placeholder.com/150"
+        alt="User"
+        className="w-36 h-36 rounded-full mx-auto"
+      />
+      <h1 className="text-xl text-blue-800 my-4">John Doe</h1>
+      <p className="text-base text-gray-600">
+        Developer at Example Co. Loves to write code and explore new
+        technologies.
+      </p>
     </div>
   );
 }
+
 export default UserProfile;
+

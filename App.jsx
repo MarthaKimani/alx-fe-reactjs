@@ -8,11 +8,20 @@ function App() {
     <div>
       <Header />
       <MainContent />
-      <UserProfile name="SparkPlug" age={21} bio="Coding, fitness, and creativity are my sparks!" />
-      <UserProfile name="Martha" age={22} bio="I’m a front-end developer who loves React and building cool apps!" />
+      <UserProfile 
+        name="SparkPlug" 
+        age={21} 
+        bio="Coding, fitness, and creativity lover 🚀" 
+      />
+      <UserProfile 
+        name="Martha" 
+        age={22} 
+        bio="I’m a front-end developer who loves design and innovation 💡" 
+      />
       <Footer />
     </div>
   );
 }
 
 export default App;
+
