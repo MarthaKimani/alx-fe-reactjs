@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import AddTodoForm from "./AddTodoForm";
 
 function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
     { id: 2, text: "Build a Todo App", completed: true },
   ]);
+  const [newTodo, setNewTodo] = useState("");
 
-  const addTodo = (text) => {
-    const newTodo = { id: Date.now(), text, completed: false };
-    setTodos([...todos, newTodo]);
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (!newTodo.trim()) return;
+    const newItem = { id: Date.now(), text: newTodo, completed: false };
+    setTodos([...todos, newItem]);
+    setNewTodo("");
   };
 
   const toggleTodo = (id) => {
@@ -25,9 +28,16 @@ function TodoList() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h2>Todo List</h2>
-      <AddTodoForm addTodo={addTodo} />
+    <div>
+      <form onSubmit={addTodo}>
+        <input
+          placeholder="Add a new todo"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+        />
+        <button type="submit">Add</button>
+      </form>
+
       <ul>
         {todos.map((todo) => (
           <li
@@ -36,19 +46,11 @@ function TodoList() {
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
-              marginBottom: "8px",
+              margin: "5px 0",
             }}
-            data-testid="todo-item"
           >
             {todo.text}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteTodo(todo.id);
-              }}
-              style={{ marginLeft: "10px" }}
-              data-testid="delete-btn"
-            >
+            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
               Delete
             </button>
           </li>
@@ -59,3 +61,4 @@ function TodoList() {
 }
 
 export default TodoList;
+
