@@ -1,13 +1,11 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostsComponent from "./components/PostsComponent";
 
-// Initialize React Query client
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    // Wrap your app in QueryClientProvider
     <QueryClientProvider client={queryClient}>
       <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
         <h1>React Query Demo</h1>
