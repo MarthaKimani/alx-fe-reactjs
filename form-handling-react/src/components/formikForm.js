@@ -2,53 +2,57 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+// ✅ Validation schema (contains string().required)
+const validationSchema = Yup.object({
+  name: Yup.string().required('Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+});
+
 const FormikForm = () => {
-  // ✅ Validation schema using Yup
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, 'Must be at least 3 characters')
-      .required('Username is required'),
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm password is required'),
-  });
-
-  // ✅ Initial values
-  const initialValues = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
-
-  // ✅ Submit handler
-  const handleSubmit = (values, { resetForm }) => {
-    console.log('Form data:', values);
-    alert('Form submitted successfully!');
-    resetForm();
-  };
-
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg bg-white">
-      <h2 className="text-2xl font-bold text-center mb-6 text-blue-700">
-        Register Form
-      </h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form className="space-y-4">
-          {/* Username */}
-          <div>
-            <label className="block font-semibold mb-1">Username</label>
-            <Field
-              type="text"
-              name="username"
-              clas
+    <Formik
+      initialValues={{ name: '', email: '' }}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        console.log(values);
+        alert('Form submitted successfully!');
+      }}
+    >
+      <Form className="max-w-md mx-auto p-6 border rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-4 text-center">Contact Form</h2>
+
+        <div className="mb-3">
+          <label className="block font-medium mb-1">Name</label>
+          <Field
+            type="text"
+            name="name"
+            className="w-full border p-2 rounded"
+            placeholder="Enter your name"
+          />
+          <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+        </div>
+
+        <div className="mb-3">
+          <label className="block font-medium mb-1">Email</label>
+          <Field
+            type="email"
+            name="email"
+            className="w-full border p-2 rounded"
+            placeholder="Enter your email"
+          />
+          <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Submit
+        </button>
+      </Form>
+    </Formik>
+  );
+};
+
+export default FormikForm;
+
