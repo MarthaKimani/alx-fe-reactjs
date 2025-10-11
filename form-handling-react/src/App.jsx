@@ -2,12 +2,12 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import PostsComponent from "./components/PostsComponent";
 
-// Create a new QueryClient instance
+// Initialize React Query client
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    // Provide the QueryClient to your entire app
+    // Wrap your app in QueryClientProvider
     <QueryClientProvider client={queryClient}>
       <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
         <h1>React Query Demo</h1>
