@@ -1,37 +1,27 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
-import About from "./components/About";
-import Profile from "./components/Profile";
-import Post from "./components/Post";
-import Login from "./components/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import BlogPost from "./components/BlogPost";
 
 function App() {
-  const isAuthenticated = false; // change to true to simulate login
-
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+      <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+        <h1>React Router Advanced</h1>
+        <nav>
+          <Link to="/">Home</Link>
+          {" | "}
+          <Link to="/blog/1">Blog 1</Link>
+          {" | "}
+          <Link to="/blog/2">Blog 2</Link>
+        </nav>
 
-        {/* Protected Route Example */}
-        <Route
-          path="/profile/*"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Dynamic Route Example */}
-        <Route path="/post/:id" element={<Post />} />
-
-        {/* Redirect if route not found */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Dynamic route */}
+          <Route path="/blog/:id" element={<BlogPost />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
