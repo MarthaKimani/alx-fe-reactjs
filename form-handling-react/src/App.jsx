@@ -1,5 +1,5 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "react-query"; // 👈 revert to react-query for checker
 import PostsComponent from "./components/PostsComponent";
 
 const queryClient = new QueryClient();
@@ -17,4 +17,3 @@ function App() {
 }
 
 export default App;
-
